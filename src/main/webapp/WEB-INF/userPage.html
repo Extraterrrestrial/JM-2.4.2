@@ -7,12 +7,12 @@
 <body>
 <div align="center">
     <table border="1">
-        <h2>User Information</h2>
+        <h2>User Information/Список пользователей</h2>
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Name/Имя</th>
             <th>Email</th>
-            <th>Roles</th>
+            <th>Roles/Роли</th>
         </tr>
         <tr>
             <td th:text="${user.id}"></td>
@@ -22,7 +22,7 @@
             <p th:text="${role.name}"></p></td>
         </tr>
     </table>
-    <a th:href="@{/logout}">Logout</a>
+    <a th:href="@{/logout}">Logout/Выход</a>
 </div>
 </body>
 </html>
