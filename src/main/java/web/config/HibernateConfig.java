@@ -28,11 +28,13 @@ public class HibernateConfig {
 
     @Autowired
     public void setEnvironment(Environment environment) {
+        System.out.println("HibernateConfig - setEnvironment");
         this.environment = environment;
     }
 
     @Bean
     public Properties hibernateProperties() {
+        System.out.println("HibernateConfig - hibernateProperties");
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
@@ -42,6 +44,7 @@ public class HibernateConfig {
 
     @Bean
     public DataSource dataSource() {
+        System.out.println("HibernateConfig - dataSource");
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
@@ -52,6 +55,7 @@ public class HibernateConfig {
 
     @Bean
     public JpaTransactionManager jpaTransactionManager() {
+        System.out.println("HibernateConfig - jpaTransactionManager");
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory(dataSource(), hibernateProperties()));
         return jpaTransactionManager;
@@ -59,6 +63,7 @@ public class HibernateConfig {
 
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource, Properties hibernateProperties) {
+        System.out.println("HibernateConfig - entityManagerFactory");
         final LocalContainerEntityManagerFactoryBean lcefb = new LocalContainerEntityManagerFactoryBean();
         lcefb.setDataSource(dataSource);
         lcefb.setPackagesToScan("web");

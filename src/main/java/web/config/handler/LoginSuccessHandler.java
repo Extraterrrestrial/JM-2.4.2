@@ -20,8 +20,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
         if (user.getAuthorities().contains(Role.ROLE_ADMIN)){
+            System.out.println("LoginSuccessHandler - onAuthenticationSuccess - ROLE_ADMIN = true -> /panel");
             httpServletResponse.sendRedirect("/panel");
         } else {
+            System.out.println("LoginSuccessHandler - onAuthenticationSuccess - ROLE_ADMIN = false -> /hello");
             httpServletResponse.sendRedirect("/hello");
         }
     }

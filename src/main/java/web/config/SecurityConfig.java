@@ -7,12 +7,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import web.config.handler.LoginSuccessHandler;
+import web.model.Role;
 import web.service.UserService;
+
+import javax.annotation.PostConstruct;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -26,11 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        System.out.println("SecurityConfig - configure(AuthenticationManagerBuilder auth) = " + userService.toString());
         auth.userDetailsService(userService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("SecurityConfig - configure(HttpSecurity http)");
         http.formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
@@ -43,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("j_password")
                 // даем доступ к форме логина всем
                 .permitAll();
+        System.out.println("SecurityConfig - configure(HttpSecurity http) - http.formLogin()" + http.formLogin());
 
         http.logout()
                 // разрешаем делать логаут всем
@@ -65,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        System.out.println("SecurityConfig - passwordEncoder");
         return new BCryptPasswordEncoder();
     }
 }

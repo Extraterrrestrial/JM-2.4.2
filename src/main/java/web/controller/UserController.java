@@ -33,9 +33,12 @@ public class UserController {
 
 	@RequestMapping(value = "hello", method = GET)
 	public String printWelcome(ModelMap model) {
+		System.out.println("UserController - printWelcome");
 		List<String> messages = new ArrayList<>();
 		messages.add("Hello!");
 		messages.add("Welcome!!!");
+		messages.add("Привет!");
+		messages.add("Добро пожаловать!!!");
 
 		model.addAttribute("messages", messages);
 		return "hello";
@@ -43,12 +46,14 @@ public class UserController {
 
 	@RequestMapping(value = "login", method = GET)
 	public String loginPage() {
+		System.out.println("UserController - loginPage");
 		return "login";
 	}
 
 
 	@RequestMapping(value = "panel", method = GET)
 	public ModelAndView allUsers() {
+		System.out.println("UserController - allUsers");
 		List<User> listUser = userService.allUsers();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("user");
@@ -57,6 +62,7 @@ public class UserController {
 	}
 	@RequestMapping(value = "add", method = GET)
 	public String addPage() {
+		System.out.println("UserController - add");
 		return "add";
 	}
 
@@ -67,6 +73,7 @@ public class UserController {
 						  @RequestParam(name = "age") int age,
 						  @RequestParam(name = "role_admin") String role_admin,
 						  @RequestParam(name = "role_user") String role_user) {
+		System.out.println("UserController - addUsers");
 		Set<Role> set = new HashSet<>();
 		System.out.println(role_admin + "     and      " + role_user);
 		if (role_admin.equals("ROLE_ADMIN")) {
@@ -78,6 +85,7 @@ public class UserController {
 		}
 
 		User user = new User(name, age, login, passwordEncoder.encode(password), set);
+//		User user = new User(name, age, login, password, set);
 		userService.add(user);
 		return "redirect:/panel";
 	}
@@ -85,6 +93,7 @@ public class UserController {
 	@RequestMapping(value = "edit", method = GET)
 	@ResponseBody
 	public ModelAndView edit(@RequestParam("id") int id) {
+		System.out.println("UserController - edit");
 		User user = userService.getById(id);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("editpage");
@@ -93,6 +102,7 @@ public class UserController {
 	}
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String editUser(@ModelAttribute("user") User user){
+		System.out.println("UserController - editUser");
 		userService.edit(user);
 		return "redirect:/panel";
 	}
@@ -100,6 +110,7 @@ public class UserController {
 	@RequestMapping(value = "delete", method = GET)
 	@ResponseBody
 	public ModelAndView deleteUser(@RequestParam("id") int id) {
+		System.out.println("UserController - deleteUser");
 		User user = userService.getById(id);
 		userService.delete(user);
 		ModelAndView modelAndView = new ModelAndView();
