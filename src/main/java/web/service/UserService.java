@@ -1,14 +1,19 @@
 package web.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import web.model.User;
-
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
-    List<User> allUsers();
-    void add(User user);
+public interface UserService {
+
+    List<User> getAllUsers();
+
+    void save(User user);
+
     void delete(User user);
+
     void edit(User user);
-    User getById(int id);
+
+    User getById(long id);
+
+    User getUser(String userName);
 }

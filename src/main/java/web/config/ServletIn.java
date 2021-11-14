@@ -2,39 +2,29 @@ package web.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import web.security.SecurityConfig;
 
 import javax.servlet.Filter;
 
-public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class ServletIn extends AbstractAnnotationConfigDispatcherServletInitializer {
     // Метод, указывающий на класс конфигурации
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        System.out.println("AppInit - getRootConfigClasses");
-        return new Class<?>[]{
-                WebConfig.class
-        };
+        return null;
     }
-
     // Добавление конфигурации, в которой инициализируем ViewResolver, для корректного отображения jsp.
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        System.out.println("AppInit - getServletConfigClasses");
-        return new Class<?>[]{
-                WebConfig.class
-        };
+        return new Class[] {WebConfig.class};
     }
-
-
     /* Данный метод указывает url, на котором будет базироваться приложение */
     @Override
     protected String[] getServletMappings() {
-        System.out.println("AppInit - getServletMappings");
-        return new String[]{"/"};
+        return new String[] {"/"};
     }
-
+// Филь
     @Override
     protected Filter[] getServletFilters(){
-        System.out.println("AppInit - getServletFilters");
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);

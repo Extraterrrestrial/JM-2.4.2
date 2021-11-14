@@ -1,8 +1,6 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDAO;
@@ -11,54 +9,44 @@ import web.model.User;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+@Transactional
+public class UserServiceImpl implements UserService {
+
     private UserDAO userDAO;
 
     @Autowired
-    public void setUserDAO(UserDAO userDAO) {
-        System.out.println("UserServiceImpl - setUserDAO");
+    public void setUser(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
-    @Transactional
-    public List<User> allUsers() {
-        System.out.println("UserServiceImpl - allUsers");
-        return userDAO.allUsers();
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 
-    @Transactional
-    public void add(User user) {
-        System.out.println("UserServiceImpl - add");
-        userDAO.add(user);
+    @Override
+    public void save(User user) {
+        userDAO.save(user);
     }
 
-    @Transactional
+    @Override
     public void delete(User user) {
-        System.out.println("UserServiceImpl - delete");
         userDAO.delete(user);
     }
 
-    @Transactional
+    @Override
     public void edit(User user) {
-        System.out.println("UserServiceImpl - edit");
         userDAO.edit(user);
     }
 
-    @Transactional
-    public User getById(int id) {
-        System.out.println("UserServiceImpl - getById");
+    @Override
+    public User getById(long id) {
         return userDAO.getById(id);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println("UserServiceImpl - loadUserByUsername");
-        return userDAO.findByName(s);
+    public User getUser(String userName) {
+        return userDAO.getUser(userName);
     }
 
-    @Override
-    public String toString() {
-        return "UserServiceImpl{" +
-                "userDAO=" + userDAO +
-                '}';
-    }
 }

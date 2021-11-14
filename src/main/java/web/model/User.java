@@ -11,128 +11,93 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "age")
-    private int age;
-
-    @Column(name = "login")
-    private String login;
-
+    private long id;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
     @Column(name = "password")
     private String password;
-
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> role;
+    @Column(name = "email")
+    private String email;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String name, int age, String login, String password, Set<Role> role) {
-        System.out.println("User - Constructor: name=" + name + " age=" + age + " login=" + login + " password=" + password);
-        this.name = name;
-        this.age = age;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
-
-    public Set<Role> getRole() {
-        System.out.println("User - getRole=<" + role + ">");
-        return role;
-    }
-
-    public void setRole(Set<Role> role) {
-        this.role = role;
-    }
-
-    public int getId() {
-        System.out.println("User - getId=<" + id + ">");
-        return id;
-    }
-
-    public void setId(int id) {
-        System.out.println("User - setId=<" + id + ">");
+    public User(long id, String username, String password, String email, Set<Role> roles) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
     }
 
-    public String getName() {
-        System.out.println("User - getName=<" + name + ">");
-        return name;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public int getAge() {
-        System.out.println("User - getAge=<" + age + ">");
-        return age;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getLogin() {
-        System.out.println("User - getLogin=<" + login + ">");
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println("User - getAuthorities=<" + getRole() + ">");
-        return getRole();
-    }
-
-    public String getPassword() {
-        System.out.println("User - getPassword=<" + password + ">");
-        return password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String getUsername() {
-        System.out.println("User - getUsername=<" + getLogin() + ">");
-        return getLogin();
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        System.out.println("User - isAccountNonExpired -> true");
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        System.out.println("User - isAccountNonLocked -> true");
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        System.out.println("User - isCredentialsNonExpired -> true");
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        System.out.println("User - isEnabled -> true");
         return true;
     }
 
-    public void setPassword(String password) {
-        System.out.println("User - setPassword=<" + password + ">");
-        this.password = password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
+
 }
